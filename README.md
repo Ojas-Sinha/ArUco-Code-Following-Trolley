@@ -1,122 +1,122 @@
-Project Overview
-The ArUco Code Following Trolley is a wireless robot system that follows a person carrying a specific ArUco marker.
-The project uses computer vision (OpenCV) for marker detection and sends wireless control signals to an ESP32 for motor operation.
-It eliminates the need for physical line-following and enables dynamic human tracking using marker recognition.
+# **ArUco Code Following Trolley**
 
-Key Features
-ArUco Marker Tracking using OpenCV
+This project implements an **ArUco Code Following Trolley** using **ESP32**, **OpenCV**, and **wireless communication**.  
+The trolley detects a specific ArUco marker and follows it by adjusting motor movements accordingly.
 
-Wireless Motor Control via ESP32 (WiFi TCP Sockets)
+---
 
-L298N Motor Driver for Motor Management
+## **Features**
 
-Dynamic Distance and Direction Adjustment
+- ArUco marker-based object tracking using OpenCV.
+- Wireless control of ESP32 via WiFi (TCP socket communication).
+- Motor control using L298N Motor Driver (manages direction, speed, and heat dissipation).
+- Real-time decision-making: Forward, Left, Right, Stop.
+- Marker generator for generating new ArUco codes for different IDs.
 
-Real-Time Video Feed Processing
+---
 
-Components Used
-ESP32 Development Board
+## **Hardware Used**
 
-L298N Motor Driver Module (with heat management via heat sinks)
+- ESP32 Dev Board
+- L298N Motor Driver Module (with heat sink for thermal management)
+- BO Motors with Wheels
+- Power Supply (Battery)
+- Laptop Webcam or Mobile IP Webcam (for remote video feed)
 
-2 × BO Motors with Wheels
+---
 
-Battery for Motor Power
+## **Software Components**
 
-Laptop Webcam or IP Webcam (for video input)
+### **Python Side (Laptop)**
 
-OpenCV & Python for image processing
+| File | Description |
+|---|---|
+| `aruco_follower_wireless.py` | Detects ArUco marker and sends movement commands to ESP32 wirelessly |
+| `aruco_marker_generator.py` | Generates an ArUco marker image (default ID 25) for printing |
 
-Project Structure
-File	Description
-aruco_follower_wireless.py	Python script for ArUco detection and wireless command sending to ESP32
-ESP32_Motor_Control.ino	Arduino code for ESP32 to control L298N motor driver over WiFi
-aruco_marker_generator.py	Python script to generate ArUco markers (ID 25 used in this project)
-aruco_marker_25.png	Sample generated ArUco marker (ID 25)
-README.md	Project documentation
+---
 
-How It Works
-Marker Generation:
-Use aruco_marker_generator.py to create a unique marker with a specific ID (e.g., 25).
-Print this marker and attach it to the object/person the trolley will follow.
+### **ESP32 Side**
 
-Laptop Side (Python):
+| File | Description |
+|---|---|
+| `ESP32_Motor_Control.ino` | Receives wireless TCP commands and controls motors using L298N |
 
-Captures video using OpenCV.
+---
 
-Detects the marker and determines distance & angle.
+## **Setup Instructions**
 
-Sends movement commands (F, B, L, R, S) to ESP32 over WiFi.
+### **1️⃣ Install Python Requirements**
 
-ESP32 Side (Arduino):
-
-Listens for TCP commands on port 80.
-
-Controls motor direction using L298N based on received commands.
-
-Setup Instructions
-ESP32
-Upload ESP32_Motor_Control.ino to ESP32 using Arduino IDE.
-
-Configure your WiFi SSID & Password in the code.
-
-Connect ESP32 to L298N Motor Driver as per the following pin mapping:
-
-ESP32 Pin	L298N Input
-25	IN1
-26	IN2
-27	IN3
-14	IN4
-
-Laptop (Python)
-Install dependencies:
+```bash
+pip install opencv-python numpy
+For ArUco detection, OpenCV must include cv2.aruco.
+If not available, install:
 
 bash
 Copy
 Edit
-pip install opencv-python numpy
-Run the main follower script:
+pip install opencv-contrib-python
+2️⃣ Run Python Code
+Generate ArUco Marker
+bash
+Copy
+Edit
+python aruco_marker_generator.py
+Generates a 6x6 ArUco marker with ID: 25
 
+Output: aruco_marker_25.png
+
+Print this marker and attach it to the object/person to follow.
+
+Run the Follower Program
 bash
 Copy
 Edit
 python aruco_follower_wireless.py
-Use the generated ArUco marker (ID 25) for testing.
+This code captures live video, detects the marker, and sends control signals to ESP32 over WiFi.
 
-Controls
-Command Sent	Action
-F	Move Forward
-B	Move Backward
-L	Turn Left
-R	Turn Right
-S	Stop
+3️⃣ Upload ESP32 Code
+Open ESP32_Motor_Control.ino in Arduino IDE.
+
+Connect the ESP32 to your computer.
+
+Replace the WiFi SSID and Password in the code with your credentials.
+
+Upload the code to ESP32.
+
+Open the Serial Monitor to note the ESP32 IP Address.
+
+Ensure the Python code uses the same IP.
+
+Movement Logic
+ArUco Marker Position	Trolley Action
+Marker too close	Stop
+Marker too far (centered)	Move Forward
+Marker on the left side	Turn Left
+Marker on the right side	Turn Right
+
+Marker Used
+Type: 6x6 ArUco Marker
+
+ID: 25
+
+Output File: aruco_marker_25.png
 
 Advantages
-Contactless Tracking:
-Tracks a person without needing line-following tracks.
+Wireless operation (no USB tethering required between laptop and trolley).
 
-Wireless Control:
-No wired connection between laptop and motors; control via TCP.
+OpenCV-based tracking ensures accurate and fast object detection.
 
-L298N Efficiency:
-Handles both forward and reverse motion with built-in heat sinks for thermal management.
+Customizable marker generation allows easy setup for different use cases.
 
-Flexible Deployment:
-Works indoors for material handling, shopping carts, personal trolleys, etc.
+L298N motor driver manages both direction and speed control while handling motor heat efficiently.
 
 Applications
-Smart Shopping Trolley
+Smart Shopping Cart
 
-Surveillance & Security Robots
+Warehouse Trolley Automation
 
-Autonomous Indoor Delivery Systems
+Surveillance Robots
 
-Personal Assistance Robots
-
-Screenshots
-Marker Example	Live Tracking
-(Add video/image here if needed)
-
-Acknowledgments
-This project was developed during the Robomanthan Internship Program as part of a learning initiative in Robotics, AI, and IoT.
-
+Personal Follower Robots
