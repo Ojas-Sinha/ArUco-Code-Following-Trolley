@@ -101,4 +101,4 @@ This code captures live video, detects the marker, and sends control signals to 
 - Smart Shopping Cart
 - Warehouse Trolley Automation
 - Surveillance Robots
-- Personal Follower Robots
+- Person Follower Robots
