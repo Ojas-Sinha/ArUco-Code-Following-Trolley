@@ -56,28 +56,27 @@ If not available, install:
 ```bash
 pip install opencv-contrib-python
 ```
-### **2️⃣ Run Python Code**
-Generate ArUco Marker
-```bash
-python aruco_marker_generator.py
-```
--Generates a 6x6 ArUco marker with ID: 25
--Output: aruco_marker_25.png
--Print this marker and attach it to the object/person to follow.
-
-Run the Follower Program
-```bash
-python aruco_follower_wireless.py
-```
-This code captures live video, detects the marker, and sends control signals to ESP32 over WiFi.
-
-### **3️⃣ Upload ESP32 Code**
+### **2️⃣ Upload ESP32 Code**
 - Open ESP32_Motor_Control.ino in Arduino IDE.
 - Connect the ESP32 to your computer.
 - Replace the WiFi SSID and Password in the code with your credentials.
 - Upload the code to ESP32.
 - Open the Serial Monitor to note the ESP32 IP Address.
 - Ensure the Python code uses the same IP.
+### **3️⃣ Run Python Code**
+Generate ArUco Marker
+```bash
+python aruco_marker_generator.py
+```
+- Generates a 6x6 ArUco marker with ID: 25
+- Output: aruco_marker_25.png
+- Print this marker and attach it to the object/person to follow.
+
+Run the Follower Program
+```bash
+python aruco_follower_wireless.py
+```
+This code captures live video, detects the marker, and sends control signals to ESP32 over WiFi.
 
 ## **Movement Logic**
 | ArUco Marker Position | Trolley Action |
